@@ -149,8 +149,8 @@ QJsonObject VideoDownloadTask::toJsonObj() const
 VideoDownloadTask::VideoDownloadTask(const QJsonObject &json)
     : AbstractVideoDownloadTask(json["path"].toString(), json["qn"].toInt())
 {
-    downloadedBytesCnt = json["bytes"].toInteger(0);
-    totalBytesCnt = json["total"].toInteger(0);
+    downloadedBytesCnt = qint64(json["bytes"].toDouble(0) + 0.5);
+    totalBytesCnt = qint64(json["total"].toDouble(0) + 0.5);
 }
 
 void VideoDownloadTask::removeFile()
@@ -271,7 +271,7 @@ void VideoDownloadTask::parsePlayUrlInfo(const QJsonObject &data)
     }
 
     auto durlObj = durl.first().toObject();
-    if (!checkSize(durlObj["size"].toInteger())) {
+    if (!checkSize(qint64(durlObj["size"].toDouble() + 0.5))) {
         return;
     }
 
@@ -376,8 +376,8 @@ QJsonObject PgcDownloadTask::toJsonObj() const
 
 PgcDownloadTask::PgcDownloadTask(const QJsonObject &json)
     : VideoDownloadTask(json),
-      ssId(json["ssid"].toInteger()),
-      epId(json["epid"].toInteger())
+      ssId(qint64(json["ssid"].toDouble() + 0.5)),
+      epId(qint64(json["epid"].toDouble() + 0.5))
 {
 }
 
@@ -413,8 +413,8 @@ QJsonObject PugvDownloadTask::toJsonObj() const
 
 PugvDownloadTask::PugvDownloadTask(const QJsonObject &json)
     : VideoDownloadTask(json),
-      ssId(json["ssid"].toInteger()),
-      epId(json["epid"].toInteger())
+      ssId(qint64(json["ssid"].toDouble() + 0.5)),
+      epId(qint64(json["epid"].toDouble() + 0.5))
 {
 }
 
@@ -450,8 +450,8 @@ QJsonObject UgcDownloadTask::toJsonObj() const
 
 UgcDownloadTask::UgcDownloadTask(const QJsonObject &json)
     : VideoDownloadTask(json),
-      aid(json["aid"].toInteger()),
-      cid(json["cid"].toInteger())
+      aid(qint64(json["aid"].toDouble() + 0.5)),
+      cid(qint64(json["cid"].toDouble() + 0.5))
 {
 }
 
@@ -665,11 +665,11 @@ QJsonObject ComicDownloadTask::toJsonObj() const
 
 ComicDownloadTask::ComicDownloadTask(const QJsonObject &json)
     : AbstractDownloadTask(json["path"].toString()),
-      comicId(json["id"].toInteger()),
-      epId(json["epid"].toInteger()),
+      comicId(qint64(json["id"].toDouble() + 0.5)),
+      epId(qint64(json["epid"].toDouble() + 0.5)),
       totalImgCnt(json["total"].toInt(0)),
       finishedImgCnt(json["imgs"].toInt(0)),
-      bytesCntTillLastImg(json["bytes"].toInteger(0))
+      bytesCntTillLastImg(qint64(json["bytes"].toDouble(0) + 0.5))
 {
 }
 

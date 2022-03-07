@@ -3,6 +3,7 @@
 
 #include <QIODevice>
 #include <QVector>
+#include <memory>
 
 namespace Flv {
 
